@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * 阶段四：借阅业务实现
- * (本项目的核心)
+ * 借阅业务实现
  */
 @Service
 public class BorrowServiceImpl implements BorrowService {

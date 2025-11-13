@@ -4,7 +4,7 @@ import com.chaos.schoollib.entity.BorrowRecord;
 import java.util.List;
 
 /**
- * 阶段四：借阅业务接口
+ * 借阅业务接口
  */
 public interface BorrowService {
 

@@ -9,22 +9,15 @@ import java.util.List;
 @Mapper
 public interface BookMapper {
 
-    // --- 阶段二方法 ---
     List<Book> findAll();
 
     Book findById(@Param("bookId") Integer bookId);
 
-    // (useGeneratedKeys 在 XML 中配置)
     int insert(Book book);
 
     int update(Book book);
 
     int deleteById(@Param("bookId") Integer bookId);
-
-
-    // ===================================
-    // == 阶段四：新增并发控制方法 ==
-    // ===================================
 
     /**
      * 原子化减库存

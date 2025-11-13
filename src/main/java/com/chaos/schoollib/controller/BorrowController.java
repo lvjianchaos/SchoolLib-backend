@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 阶段四：借阅 API 控制器
+ * 借阅 API 控制器
  */
 @RestController
 @RequestMapping("/api")

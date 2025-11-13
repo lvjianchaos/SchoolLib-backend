@@ -3,9 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--
-  阶段二：BookMapper XML
--->
 <mapper namespace="com.chaos.schoollib.mapper.BookMapper">
 
     <!-- 1. ResultMap: 用于 Book 实体映射 -->

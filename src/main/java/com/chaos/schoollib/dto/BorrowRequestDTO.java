@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * 阶段四：借书请求 DTO
+ * 借书请求 DTO
  * 接收 /api/borrow 接口的请求体
  */
 @Data

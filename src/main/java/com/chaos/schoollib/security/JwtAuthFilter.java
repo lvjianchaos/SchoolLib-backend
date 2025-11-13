@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
- * 阶段三：JWT 认证过滤器
+ * JWT 认证过滤器
  * 职责：拦截所有请求，检查 Header 中是否有有效的 JWT
  */
 @Component

@@ -12,8 +12,7 @@ public interface UserMapper {
      * @param username 用户名
      * @return User 对象
      */
-    // 使用 Optional 避免空指针，但 Mybatis 3.0.5 映射 Optional 可能需要额外配置
-    // 为简单起见，我们直接返回 User
+    // 为简单起见，直接返回 User
     User findByUsername(@Param("username") String username);
 
     /**

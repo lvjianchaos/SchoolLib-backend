@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 阶段二：图书管理 RESTful API 控制器
+ * 图书管理 RESTful API 控制器
  */
 @RestController
 @RequestMapping("/api/books") // 所有请求都以 /api/books 为前缀
@@ -27,7 +27,7 @@ public class BookController {
 
     /**
      * 1. 创建新书 (POST /api/books)
-     * (在阶段三中，我们将限制此接口仅对 ADMIN 开放)
+     * (限制此接口仅对 ADMIN 开放)
      */
     @PostMapping
     public ResponseEntity<Book> createBook(@Valid @RequestBody BookDTO bookDTO) {
@@ -57,7 +57,7 @@ public class BookController {
 
     /**
      * 4. 更新图书 (PUT /api/books/{id})
-     * (在阶段三中，我们将限制此接口仅对 ADMIN 开放)
+     * (限制此接口仅对 ADMIN 开放)
      */
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable("id") Integer bookId,
@@ -68,7 +68,7 @@ public class BookController {
 
     /**
      * 5. 删除图书 (DELETE /api/books/{id})
-     * (在阶段三中，我们将限制此接口仅对 ADMIN 开放)
+     * (限制此接口仅对 ADMIN 开放)
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable("id") Integer bookId) {

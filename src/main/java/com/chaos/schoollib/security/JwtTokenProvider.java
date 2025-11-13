@@ -3,7 +3,6 @@ package com.chaos.schoollib.security;
 import com.chaos.schoollib.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-// import io.jsonwebtoken.SignatureAlgorithm; // (0.12.5 不再需要)
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey; // (0.12.5 推荐)
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -65,10 +64,10 @@ public class JwtTokenProvider {
      * 从 Token 中获取用户名
      */
     public String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parserBuilder() // 1. 使用 0.12.5 的 parserBuilder()
-                .setSigningKey(key)          // 2. 设置秘钥 (SecretKey)
-                .build()                     // 3. (关键修复) 构建解析器
-                .parseClaimsJws(token)       // 4. 解析
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
     }
@@ -78,14 +77,14 @@ public class JwtTokenProvider {
      */
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder()           // 1. 使用 0.12.5 的 parserBuilder()
-                    .setSigningKey(key)    // 2. 设置秘钥 (SecretKey)
-                    .build()               // 3. (关键修复) 构建解析器
-                    .parseClaimsJws(token); // 4. 解析
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
 
             return true;
         } catch (Exception ex) {
-            // (日志) 例如：
+            // (日志) ：
             // logger.error("Invalid JWT token: {}", ex.getMessage());
         }
         return false;

@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.Map;
 
 /**
- * 阶段四：全局异常处理器
- * (提前引入阶段五)
+ * 全局异常处理器
  * 职责：捕获 Service 层抛出的异常，并返回统一的 JSON 错误格式
  */
 @RestControllerAdvice // 声明这是一个全局异常处理切面

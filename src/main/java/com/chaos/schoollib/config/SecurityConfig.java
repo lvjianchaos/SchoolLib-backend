@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * Spring Security 配置
  *
- * 阶段三：(重大更新)
  * 1. 禁用 Session，启用 STATELESS
  * 2. 注入 JwtAuthFilter
  * 3. 配置 AuthenticationManager

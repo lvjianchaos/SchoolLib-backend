@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * 阶段三：实现 Spring Security 的 UserDetailsService
+ * 实现 Spring Security 的 UserDetailsService
  * 职责：根据用户名从数据库加载用户信息 (User)
  */
 @Service
@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
-        // 返回的 User 对象（我们自己实现的 UserDetails）
+        // 返回的 User 对象（实现的 UserDetails）
         return user;
     }
 }

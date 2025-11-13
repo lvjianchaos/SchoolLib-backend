@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 阶段四：借阅记录 Mapper
+ * 借阅记录 Mapper
  */
 @Mapper
 public interface BorrowRecordMapper {
@@ -41,7 +41,7 @@ public interface BorrowRecordMapper {
     List<BorrowRecord> findByUserId(@Param("userId") Integer userId);
 
     /**
-     * (可选) 查找某用户对某本书的未还记录
+     * 查找某用户对某本书的未还记录
      * @param userId 用户ID
      * @param bookId 图书ID
      * @param status 状态 (例如 'borrowed')

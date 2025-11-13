@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 阶段三：用户实体 (POJO)
+ * 用户实体 (POJO)
  * 实现了 UserDetails 接口，以便与 Spring Security 集成
  */
 @Data
