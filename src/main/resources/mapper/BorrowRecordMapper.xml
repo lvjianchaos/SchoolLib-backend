@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+  阶段四：BorrowRecordMapper XML
+-->
+<mapper namespace="com.chaos.schoollib.mapper.BorrowRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.chaos.schoollib.entity.BorrowRecord">
+        <id property="recordID" column="RecordID" />
+        <result property="userID" column="UserID" />
+        <result property="bookID" column="BookID" />
+        <result property="borrowDate" column="BorrowDate" />
+        <result property="dueDate" column="DueDate" />
+        <result property="returnDate" column="ReturnDate" />
+        <result property="status" column="Status" />
+    </resultMap>
+
+    <!-- 1. 插入新记录 -->
+    <insert id="insert" parameterType="com.chaos.schoollib.entity.BorrowRecord"
+            useGeneratedKeys="true" keyProperty="recordID">
+        INSERT INTO BorrowRecord (UserID, BookID, BorrowDate, DueDate, Status)
+        VALUES (#{userID}, #{bookID}, #{borrowDate}, #{dueDate}, #{status})
+    </insert>
+
+    <!-- 2. 根据 ID 查找 -->
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM BorrowRecord WHERE RecordID = #{recordId}
+    </select>
+
+    <!-- 3. 更新记录 (还书时使用) -->
+    <update id="update" parameterType="com.chaos.schoollib.entity.BorrowRecord">
+        UPDATE BorrowRecord
+        SET
+            ReturnDate = #{returnDate},
+            Status = #{status}
+        WHERE RecordID = #{recordID}
+    </update>
+
+    <!-- 4. 根据用户 ID 查找 -->
+    <select id="findByUserId" resultMap="BaseResultMap">
+        SELECT * FROM BorrowRecord
+        WHERE UserID = #{userId}
+        ORDER BY BorrowDate DESC
+    </select>
+
+    <!-- 5. 查找活跃记录 (防止重复借) -->
+    <select id="findActiveRecordByUserAndBook" resultMap="BaseResultMap">
+        SELECT * FROM BorrowRecord
+        WHERE UserID = #{userId}
+          AND BookID = #{bookId}
+          AND Status = #{status}
+            LIMIT 1
+    </select>
+
+</mapper>
