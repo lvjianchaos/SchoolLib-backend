@@ -6,47 +6,39 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * 职责：
- * 1. 声明为 @Mapper，让 MyBatis-Spring-Boot-Starter 能够扫描到它。
- * 2. (更新) 添加图书管理的 CRUD (增删改查) 接口方法。
- */
 @Mapper
 public interface BookMapper {
 
-    /**
-     * 新增一本书
-     * @param book 图书对象
-     * @return 受影响的行数
-     */
-    int insert(Book book);
-
-    /**
-     * 根据 ID 更新一本书的信息
-     * @param book 图书对象
-     * @return 受影响的行数
-     */
-    int update(Book book);
-
-    /**
-     * 根据 ID 删除一本书
-     * @param bookId 图书 ID
-     * @return 受影响的行数
-     */
-    int deleteById(@Param("bookId") Integer bookId);
-
-    /**
-     * 根据 ID 查找一本书
-     * @param bookId 图书 ID
-     * @return 图书对象, 找不到则返回 null
-     */
-    Book findById(@Param("bookId") Integer bookId);
-
-    /**
-     * 查找所有图书
-     * @return 图书列表
-     */
+    // --- 阶段二方法 ---
     List<Book> findAll();
 
-    // 阶段四中我们将在这里添加 decreaseStock 方法
+    Book findById(@Param("bookId") Integer bookId);
+
+    // (useGeneratedKeys 在 XML 中配置)
+    int insert(Book book);
+
+    int update(Book book);
+
+    int deleteById(@Param("bookId") Integer bookId);
+
+
+    // ===================================
+    // == 阶段四：新增并发控制方法 ==
+    // ===================================
+
+    /**
+     * 原子化减库存
+     * 对应 BookMapper.xml 中的 'decreaseStock'
+     * @param bookId 图书ID
+     * @return 受影响的行数 (1 表示成功, 0 表示失败/库存不足)
+     */
+    int decreaseStock(@Param("bookId") Integer bookId);
+
+    /**
+     * 原子化加库存 (还书时)
+     * 对应 BookMapper.xml 中的 'increaseStock'
+     * @param bookId 图书ID
+     * @return 受影响的行数
+     */
+    int increaseStock(@Param("bookId") Integer bookId);
 }

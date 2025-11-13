@@ -4,27 +4,40 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!--
-  BookMapper XML
-  命名空间必须和 Mapper 接口的完全限定名一致
+  阶段二：BookMapper XML
 -->
 <mapper namespace="com.chaos.schoollib.mapper.BookMapper">
 
-    <!--
-      1. 新增图书 (insert)
-      - useGeneratedKeys="true": 告诉 MyBatis 我们需要数据库生成的主键。
-      - keyProperty="bookID": 将生成的主键 (BookID) 赋值给传入的 Book 对象的 'bookID' 属性。
-    -->
+    <!-- 1. ResultMap: 用于 Book 实体映射 -->
+    <resultMap id="BaseResultMap" type="com.chaos.schoollib.entity.Book">
+        <id property="bookID" column="BookID" />
+        <result property="title" column="Title" />
+        <result property="author" column="Author" />
+        <result property="publisher" column="Publisher" />
+        <result property="isbn" column="ISBN" />
+        <result property="category" column="Category" />
+        <result property="stock" column="Stock" />
+        <result property="total" column="Total" />
+    </resultMap>
+
+    <!-- 2. 插入 (Create) -->
     <insert id="insert" parameterType="com.chaos.schoollib.entity.Book"
             useGeneratedKeys="true" keyProperty="bookID">
         INSERT INTO Book (Title, Author, Publisher, ISBN, Category, Stock, Total)
         VALUES (#{title}, #{author}, #{publisher}, #{isbn}, #{category}, #{stock}, #{total})
     </insert>
 
-    <!--
-      2. 更新图书 (update)
-      - 我们在这里选择更新所有字段。
-      - parameterType 也可以用别名 "Book" (如果 application.yml 中配置了 type-aliases-package)
-    -->
+    <!-- 3. 查询 (Read) - By ID -->
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM Book WHERE BookID = #{bookId}
+    </select>
+
+    <!-- 4. 查询 (Read) - All -->
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT * FROM Book
+    </select>
+
+    <!-- 5. 更新 (Update) -->
     <update id="update" parameterType="com.chaos.schoollib.entity.Book">
         UPDATE Book
         SET
@@ -38,44 +51,39 @@
         WHERE BookID = #{bookID}
     </update>
 
-    <!--
-      3. 删除图书 (deleteById)
-      - 注意这里参数类型是 Integer，MyBatis 会自动匹配。
-    -->
+    <!-- 6. 删除 (Delete) -->
     <delete id="deleteById">
         DELETE FROM Book WHERE BookID = #{bookId}
     </delete>
 
-    <!--
-      4. 根据 ID 查找 (findById)
-      - resultMap (见下) 用于将数据库列名映射到 Java 属性名。
-    -->
-    <select id="findById" resultMap="BaseResultMap">
-        SELECT * FROM Book WHERE BookID = #{bookId}
-    </select>
 
     <!--
-      5. 查找所有 (findAll)
+      ===================================
+      == 阶段四：新增并发控制 SQL ==
+      ===================================
     -->
-    <select id="findAll" resultMap="BaseResultMap">
-        SELECT * FROM Book
-    </select>
 
     <!--
-      ResultMap: 用于数据库列名和 Java 实体属性名的映射。
-      虽然在这个例子中它们大部分是匹配的，但这是一个好习惯，
-      特别是当数据库列名是 "book_id" 而 Java 属性是 "bookID" 时。
-      (在我们的 schema.sql 中，列名和属性名是一致的，所以这个 Map 很简单)
+      7. 原子化减库存 (借书)
+      这是实验的核心：
+      1. 我们在 WHERE 子句中检查 Stock > 0
+      2. 这是一个单一的、原子化的 UPDATE 语句
+      3. 如果 BookID 存在且 Stock > 0, 它会执行成功并返回 1 (affected rows)
+      4. 如果 BookID 不存在或 Stock = 0, 它会执行失败并返回 0 (affected rows)
     -->
-    <resultMap id="BaseResultMap" type="com.chaos.schoollib.entity.Book">
-        <id property="bookID" column="BookID" />
-        <result property="title" column="Title" />
-        <result property="author" column="Author" />
-        <result property="publisher" column="Publisher" />
-        <result property="isbn" column="ISBN" />
-        <result property="category" column="Category" />
-        <result property="stock" column="Stock" />
-        <result property="total" column="Total" />
-    </resultMap>
+    <update id="decreaseStock">
+        UPDATE Book
+        SET Stock = Stock - 1
+        WHERE BookID = #{bookId} AND Stock > 0
+    </update>
+
+    <!--
+      8. 原子化加库存 (还书)
+    -->
+    <update id="increaseStock">
+        UPDATE Book
+        SET Stock = Stock + 1
+        WHERE BookID = #{bookId}
+    </update>
 
 </mapper>
