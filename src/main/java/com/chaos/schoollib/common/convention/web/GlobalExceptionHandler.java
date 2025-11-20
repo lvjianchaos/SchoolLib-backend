@@ -1,6 +1,7 @@
-package com.chaos.schoollib.common.convention.exception;
+package com.chaos.schoollib.common.convention.web;
 
 import com.chaos.schoollib.common.convention.errorcode.BaseErrorCode;
+import com.chaos.schoollib.common.convention.exception.AbstractException;
 import com.chaos.schoollib.common.result.Result;
 import com.chaos.schoollib.common.result.Results;
 import org.springframework.http.HttpStatus;
